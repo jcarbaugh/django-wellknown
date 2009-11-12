@@ -31,6 +31,7 @@ Register resources
 ------------------
 
 ::
+
 	import wellknown
 	wellknown.register('host-meta', ...)
 
@@ -40,9 +41,9 @@ The first argument is the path that will be exposed for the resource. A path of 
 
 At least one of the following arguments is required:
 
-* ``content``: a string or unicode representation of the resource
-* ``template``: the path to a template that will be rendered for the resource
-* ``handler``: a handler method that will be used to render the resource
+* ``content``: a string or unicode representation of the resource, cached on startup
+* ``template``: the path to a template that will be rendered for the resource, rendered and cached on startup
+* ``handler``: a handler method that will be used to render the resource, invoked on each request
 
 Handler methods must have the following signature and return a string or unicode object::
 
