@@ -6,7 +6,7 @@ _cache = { }
 def register(path, handler=None, template=None, content=None, content_type=None):
     
     if path in _cache:
-        raise ValueError(u"duplicate registration for %s" % path)
+        raise ValueError(u"duplicate resource for %s" % path)
         
     if content_type is None:
         content_type = mimetypes.guess_type(path)[0] or 'text/plain'
@@ -22,6 +22,6 @@ def register(path, handler=None, template=None, content=None, content_type=None)
 
         
 def init():
-    from wellknown.models import Registration
-    for reg in Registration.objects.all():
-        register(reg.path, content=reg.content, content_type=reg.content_type)
+    from wellknown.models import Resource
+    for res in Resource.objects.all():
+        register(res.path, content=res.content, content_type=res.content_type)

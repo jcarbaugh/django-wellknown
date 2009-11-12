@@ -1,7 +1,7 @@
 from django.contrib import admin
-from wellknown.models import Registration
+from wellknown.models import Resource
 
-class RegistrationAdmin(admin.ModelAdmin):
+class ResourceAdmin(admin.ModelAdmin):
     pass
 
-admin.site.register(Registration, RegistrationAdmin)
+admin.site.register(Resource, ResourceAdmin)
