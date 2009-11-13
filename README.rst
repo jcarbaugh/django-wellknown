@@ -47,7 +47,7 @@ At least one of the following arguments is required:
 
 Handler methods must have the following signature and return a string or unicode object::
 
-	def handler(request, path, *args, **kwargs):
+	def handler(request, *args, **kwargs):
 		pass
 
 The register method takes one optional parameter, ``content_type``. This is the content type that will be used to return the rendered resource. The following rules are used to determine the content_type to use:

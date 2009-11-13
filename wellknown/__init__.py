@@ -19,7 +19,6 @@ def register(path, handler=None, template=None, content=None, content_type=None)
         _cache[path] = (content, content_type)
     else:
         raise ValueError(u"either handler, template, or content must be specified")
-
         
 def init():
     from wellknown.models import Resource

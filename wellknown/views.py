@@ -14,7 +14,7 @@ def handle(request, path, *args, **kwargs):
         raise Http404()
 
     if callable(handler_or_content):
-        content = handler_or_content(request, path, content_type=content_type, *args, **kwargs)
+        content = handler_or_content(request, content_type=content_type, *args, **kwargs)
     else:
         content = handler_or_content
 
