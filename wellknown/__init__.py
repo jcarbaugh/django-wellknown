@@ -1,7 +1,10 @@
 from django.template.loader import render_to_string
+from wellknown.resources import HostMeta
 import mimetypes
 
 _cache = { }
+
+hostmeta = HostMeta()
 
 def register(path, handler=None, template=None, content=None, content_type=None):
     
@@ -24,3 +27,4 @@ def init():
     from wellknown.models import Resource
     for res in Resource.objects.all():
         register(res.path, content=res.content, content_type=res.content_type)
+    register('host-meta', handler=hostmeta.render, content_type='text/plain')
