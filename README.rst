@@ -4,7 +4,8 @@ django-wellknown
 
 Django application to provide easy administration of site-meta URIs. Includes robots.txt and crossdomain.xml.
 
-http://tools.ietf.org/html/draft-nottingham-site-meta-03 
+http://tools.ietf.org/html/draft-nottingham-site-meta-03
+http://tools.ietf.org/html/draft-hammer-hostmeta-04
 
 Requirements
 ============
@@ -71,6 +72,24 @@ When a resource is saved, it is updated in the cache. To load resources into the
 	wellknown.init()
 
 This method should be called once when the web application is started.
+
+host-meta
+---------
+
+A default ``host-meta`` file is automatically handled by wellknown. To register an entry in ``host-meta``::
+
+	wellknown.hostmeta.register_link(rels=[...], ...)
+
+* ``rels``: a list of rel entries
+* ``uri``: URI for the link
+* ``uri_template``: URI template for the link
+* ``title``: link title element
+
+``rels`` is required. One of ``uri`` or ``uri_template`` is also required.
+
+The ``Host`` element of ``host-meta`` is inferred from the domain of the current Django Site object. To override the hosts, edit settings.py::
+
+	WELLKNOWN_HOSTMETA_SITES = ('example.com', 'www.example.com')
 
 django-robots
 -------------
