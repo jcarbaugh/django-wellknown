@@ -24,7 +24,9 @@ def register(path, handler=None, template=None, content=None, content_type=None)
         raise ValueError(u"either handler, template, or content must be specified")
         
 def init():
+    from django.conf import settings
     from wellknown.models import Resource
     for res in Resource.objects.all():
         register(res.path, content=res.content, content_type=res.content_type)
-    register('host-meta', handler=hostmeta.render, content_type='text/plain')
+    content_type = 'text/plain' if settings.DEBUG else 'application/xrd+xml'
+    register('host-meta', handler=hostmeta.render, content_type=content_type)
