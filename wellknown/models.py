@@ -1,7 +1,18 @@
 from django.db import models
 from django.db.models.signals import post_save
-from wellknown import hostmeta, register
 import mimetypes
+import wellknown
+
+#
+# create default host-meta handler
+#
+
+from wellknown.resources import HostMeta
+wellknown.register('host-meta', handler=HostMeta(), content_type='application/xrd+xml')
+
+#
+# resource model
+#
 
 class Resource(models.Model):
     path = models.CharField(max_length=128)
@@ -26,7 +37,7 @@ class Resource(models.Model):
 
 def save_handler(sender, **kwargs):
     reg = kwargs['instance']
-    register(
+    wellknown.register(
         reg.path,
         content=reg.content,
         content_type=reg.content_type,
@@ -40,10 +51,4 @@ post_save.connect(save_handler, sender=Resource)
 #
 
 for res in Resource.objects.all():
-    register(res.path, content=res.content, content_type=res.content_type)
-
-#
-# create default host-meta handler
-#
-
-register('host-meta', handler=hostmeta, content_type='application/xrd+xml')
+    wellknown.register(res.path, content=res.content, content_type=res.content_type)

@@ -1,9 +1,10 @@
 from django.template.loader import render_to_string
-from wellknown.resources import HostMeta
 import mimetypes
 
 _cache = { }
-hostmeta = HostMeta()
+
+def get_hostmeta():
+    return get_resource('host-meta')[0]
 
 def get_resource(path):
     return _cache.get(path, (None, None))
@@ -25,4 +26,4 @@ def register(path, handler=None, template=None, content=None, content_type=None,
     else:
         raise ValueError(u"either handler, template, or content must be specified")
 
-__all__ = ['register','hostmeta']
+__all__ = ['register','get_resource','get_hostmeta']
