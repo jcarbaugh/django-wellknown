@@ -24,6 +24,6 @@ class HostMeta(object):
         
         self._links.append(link)
         
-    def render(self, *args, **kwargs):
+    def __call__(self, *args, **kwargs):
         data = {'hosts': self._hosts, 'links': self._links, 'lang': self._lang}
         return render_to_string('wellknown/host-meta.xml', data)

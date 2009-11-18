@@ -3,15 +3,17 @@ from wellknown.resources import HostMeta
 import mimetypes
 
 _cache = { }
-
 hostmeta = HostMeta()
 
-def register(path, handler=None, template=None, content=None, content_type=None):
+def get_resource(path):
+    return _cache.get(path, (None, None))
+
+def register(path, handler=None, template=None, content=None, content_type=None, update=False):
     
     if path in _cache:
         raise ValueError(u"duplicate resource for %s" % path)
         
-    if content_type is None:
+    if content_type is None and not update:
         content_type = mimetypes.guess_type(path)[0] or 'text/plain'
         
     if handler:
@@ -22,11 +24,5 @@ def register(path, handler=None, template=None, content=None, content_type=None)
         _cache[path] = (content, content_type)
     else:
         raise ValueError(u"either handler, template, or content must be specified")
-        
-def init():
-    from django.conf import settings
-    from wellknown.models import Resource
-    for res in Resource.objects.all():
-        register(res.path, content=res.content, content_type=res.content_type)
-    content_type = 'text/plain' if settings.DEBUG else 'application/xrd+xml'
-    register('host-meta', handler=hostmeta.render, content_type=content_type)
+
+__all__ = ['register','hostmeta']
