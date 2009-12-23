@@ -1,29 +1,33 @@
 from django.conf import settings
 from django.contrib.sites.models import Site
 from django.template.loader import render_to_string
+from xrd import XRD, Link, Element
 
-class HostMeta(object):
+LANGUAGE_CODE = getattr(settings, "LANGUAGE_CODE", "en-us")
+
+class HostMeta(XRD):
     
     def __init__(self):
-        self._links = []
-        self._hosts = getattr(settings, "WELLKNOWN_HOSTMETA_HOSTS", (Site.objects.get_current().domain,))
-        self._lang = getattr(settings, "LANGUAGE_CODE", "en-us")
         
-    def register_link(self, rels, uri=None, uri_template=None, title=None):
+        super(HostMeta, self).__init__()
         
-        if uri is None and uri_template is None:
-            raise ValueError('one of uri or uri_template is required')
+        self.attributes.append(('xmlns:hm','http://host-meta.net/ns/1.0'))
+        
+        hosts = getattr(settings, "WELLKNOWN_HOSTMETA_HOSTS", (Site.objects.get_current().domain,))
+        for host in hosts:
+            self.elements.append(Element('hm:Host', host))
+        
+    def register_link(self, rel, href=None, template=None, title=None):
+        
+        if href is None and template is None:
+            raise ValueError('one of href or template is required')
             
-        link = {'rels': rels}
-        if uri:
-            link['uri'] = uri
-        if uri_template:
-            link['uri_template'] = uri_template
+        link = Link(rel=rel, href=href, template=template)
         if title:
-            link['title'] = title
-        
-        self._links.append(link)
+            link.titles.append(title)
+            
+        self.links.append(link)
         
     def __call__(self, *args, **kwargs):
-        data = {'hosts': self._hosts, 'links': self._links, 'lang': self._lang}
-        return render_to_string('wellknown/host-meta.xml', data)
+        data = {'hosts': self._hosts, 'links': self._links}
+        return self.to_xml()
