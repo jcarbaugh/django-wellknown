@@ -16,6 +16,10 @@ django >= 1.0
 
 django-robots (optional)
 
+python-xrd
+
+iso8601
+
 Installation
 ============
 
@@ -66,26 +70,16 @@ Resources may be stored in the database to make it easy for non-technical users 
 * ``content``: the content that will be served when the resource is requested
 * ``content_type``: the content_type with which the content will be returned, defaults to ``text/plain``
 
-When a resource is saved, it is updated in the cache. To load resources into the cache at run-time::
-
-	import wellknown
-	wellknown.init()
-
-This method should be called once when the web application is started.
+When a resource is saved, it is updated in the cache.
 
 host-meta
 ---------
 
 A default ``host-meta`` file is automatically handled by wellknown. To register an entry in ``host-meta``::
 
-	wellknown.hostmeta.register_link(rels=[...], ...)
+	wellknown.hostmeta.links.append(Link(rel=..., ...))
 
-* ``rels``: a list of rel entries
-* ``uri``: URI for the link
-* ``uri_template``: URI template for the link
-* ``title``: link title element
-
-``rels`` is required. One of ``uri`` or ``uri_template`` is also required.
+Refer to the python-xrd documentation for instructions on creating XRD Link elements.
 
 The ``Host`` element of ``host-meta`` is inferred from the domain of the current Django Site object. To override the hosts, edit settings.py::
 

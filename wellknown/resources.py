@@ -17,17 +17,6 @@ class HostMeta(XRD):
         for host in hosts:
             self.elements.append(Element('hm:Host', host))
         
-    def register_link(self, rel, href=None, template=None, title=None):
-        
-        if href is None and template is None:
-            raise ValueError('one of href or template is required')
-            
-        link = Link(rel=rel, href=href, template=template)
-        if title:
-            link.titles.append(title)
-            
-        self.links.append(link)
-        
     def __call__(self, *args, **kwargs):
         data = {'hosts': self._hosts, 'links': self._links}
         return self.to_xml()
