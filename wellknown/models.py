@@ -45,10 +45,3 @@ def save_handler(sender, **kwargs):
     )
 
 post_save.connect(save_handler, sender=Resource)
-
-#
-# cache resources
-#
-
-for res in Resource.objects.all():
-    wellknown.register(res.path, content=res.content, content_type=res.content_type)
