@@ -18,5 +18,5 @@ class HostMeta(XRD):
             self.elements.append(Element('hm:Host', host))
         
     def __call__(self, *args, **kwargs):
-        data = {'hosts': self._hosts, 'links': self._links}
-        return self.to_xml()
+        doc = self.to_xml()
+        return doc.toxml()
