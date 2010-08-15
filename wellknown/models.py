@@ -8,7 +8,12 @@ import wellknown
 #
 
 from wellknown.resources import HostMeta
-wellknown.register('host-meta', handler=HostMeta(), content_type='application/xrd+xml')
+
+try:
+    wellknown.register('host-meta', handler=HostMeta(),
+                       content_type='application/xrd+xml')
+except ValueError:
+    pass
 
 #
 # resource model
