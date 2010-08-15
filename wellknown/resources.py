@@ -1,5 +1,4 @@
 from django.conf import settings
-from django.contrib.sites.models import Site
 from django.template.loader import render_to_string
 from xrd import XRD, Link, Element
 
@@ -13,7 +12,7 @@ class HostMeta(XRD):
         
         self.attributes.append(('xmlns:hm','http://host-meta.net/ns/1.0'))
         
-        hosts = getattr(settings, "WELLKNOWN_HOSTMETA_HOSTS", (Site.objects.get_current().domain,))
+        hosts = getattr(settings, "WELLKNOWN_HOSTMETA_HOSTS", ('example.com',))
         for host in hosts:
             self.elements.append(Element('hm:Host', host))
         
