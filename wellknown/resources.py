@@ -1,3 +1,5 @@
+import re
+
 from django.conf import settings
 from django.template.loader import render_to_string
 from xrd import XRD, Link, Element
@@ -18,4 +20,6 @@ class HostMeta(XRD):
         
     def __call__(self, *args, **kwargs):
         doc = self.to_xml()
-        return doc.toxml()
+        xml = doc.toprettyxml(indent='  ')
+        expr = re.compile(r'>\n\s+([^<>\s].*?)\n\s+</', re.DOTALL)
+        return expr.sub(r'>\g<1></', xml)

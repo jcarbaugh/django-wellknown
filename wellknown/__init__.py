@@ -1,6 +1,8 @@
 from django.template.loader import render_to_string
 import mimetypes
 
+from wellknown.resources import HostMeta
+
 _cache = { }
 
 def get_hostmeta():
@@ -27,3 +29,7 @@ def register(path, handler=None, template=None, content=None, content_type=None,
         raise ValueError(u"either handler, template, or content must be specified")
 
 __all__ = ['register','get_resource','get_hostmeta']
+
+# register default host-meta handler.
+register('host-meta', handler=HostMeta(),
+         content_type='application/xrd+xml')

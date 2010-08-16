@@ -4,18 +4,6 @@ import mimetypes
 import wellknown
 
 #
-# create default host-meta handler
-#
-
-from wellknown.resources import HostMeta
-
-try:
-    wellknown.register('host-meta', handler=HostMeta(),
-                       content_type='application/xrd+xml')
-except ValueError:
-    pass
-
-#
 # resource model
 #
 
